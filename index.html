@@ -3,33 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeMaster AI Pro</title>
+    <title>Bot Générateur HTML</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        body { overflow: hidden; }
-        pre { background: #1e1e1e; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; }
-        code { color: #e879f9; font-family: 'Courier New', monospace; font-size: 0.9em; }
+        pre { background: #1e1e1e; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; position: relative; }
+        code { color: #e879f9; font-family: 'Courier New', monospace; font-size: 0.85em; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
     <div class="flex flex-col h-screen">
-        <!-- Header -->
         <div class="bg-black bg-opacity-50 p-4 border-b border-purple-500">
-            <div class="flex items-center justify-between max-w-4xl mx-auto">
+            <div class="flex items-center justify-between max-w-6xl mx-auto">
                 <div class="flex items-center space-x-3">
                     <div class="bg-purple-600 p-2 rounded-lg">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-white">CodeMaster AI Pro</h1>
-                        <p class="text-sm text-purple-300">Assistant de codage intelligent</p>
+                        <h1 class="text-xl font-bold text-white">Bot Générateur HTML</h1>
+                        <p class="text-sm text-purple-300">Code HTML prêt à copier et tester</p>
                     </div>
                 </div>
                 <button onclick="clearAll()" class="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition">
@@ -40,27 +34,38 @@
             </div>
         </div>
 
-        <!-- Messages -->
         <div id="messages" class="flex-1 overflow-y-auto p-4">
-            <div class="max-w-4xl mx-auto space-y-4">
+            <div class="max-w-6xl mx-auto space-y-4">
                 <div id="welcome" class="text-center py-12">
                     <svg class="w-16 h-16 text-purple-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                     </svg>
-                    <h2 class="text-2xl font-bold text-white mb-2">Prêt à coder !</h2>
-                    <p class="text-purple-300 mb-4">Demandez-moi de générer du code</p>
-                    <div class="grid grid-cols-2 gap-3 max-w-md mx-auto text-sm">
-                        <button onclick="quickPrompt('code moi une application de trading')" class="bg-purple-700 hover:bg-purple-600 text-white p-3 rounded-lg transition">
-                            📈 App Trading
+                    <h2 class="text-2xl font-bold text-white mb-4">Générateur de Code HTML</h2>
+                    <p class="text-purple-300 mb-6">Demandez une app et copiez le code pour le tester !</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto text-sm">
+                        <button onclick="quickPrompt('app de trading')" class="bg-purple-700 hover:bg-purple-600 text-white p-4 rounded-lg transition">
+                            📈 Trading App
                         </button>
-                        <button onclick="quickPrompt('créer un composant React')" class="bg-blue-700 hover:bg-blue-600 text-white p-3 rounded-lg transition">
-                            ⚛️ Composant React
+                        <button onclick="quickPrompt('calculatrice')" class="bg-blue-700 hover:bg-blue-600 text-white p-4 rounded-lg transition">
+                            🔢 Calculatrice
                         </button>
-                        <button onclick="quickPrompt('API REST en Python')" class="bg-green-700 hover:bg-green-600 text-white p-3 rounded-lg transition">
-                            🐍 API Python
+                        <button onclick="quickPrompt('todo list')" class="bg-green-700 hover:bg-green-600 text-white p-4 rounded-lg transition">
+                            ✅ Todo List
                         </button>
-                        <button onclick="quickPrompt('bot Discord')" class="bg-indigo-700 hover:bg-indigo-600 text-white p-3 rounded-lg transition">
-                            🤖 Bot Discord
+                        <button onclick="quickPrompt('jeu')" class="bg-red-700 hover:bg-red-600 text-white p-4 rounded-lg transition">
+                            🎮 Jeu
+                        </button>
+                        <button onclick="quickPrompt('dashboard')" class="bg-yellow-700 hover:bg-yellow-600 text-white p-4 rounded-lg transition">
+                            📊 Dashboard
+                        </button>
+                        <button onclick="quickPrompt('chat')" class="bg-indigo-700 hover:bg-indigo-600 text-white p-4 rounded-lg transition">
+                            💬 Chat
+                        </button>
+                        <button onclick="quickPrompt('portfolio')" class="bg-pink-700 hover:bg-pink-600 text-white p-4 rounded-lg transition">
+                            💼 Portfolio
+                        </button>
+                        <button onclick="quickPrompt('horloge')" class="bg-teal-700 hover:bg-teal-600 text-white p-4 rounded-lg transition">
+                            ⏰ Horloge
                         </button>
                     </div>
                 </div>
@@ -68,13 +73,12 @@
             </div>
         </div>
 
-        <!-- Input -->
         <div class="bg-black bg-opacity-50 p-4 border-t border-purple-500">
-            <div class="max-w-4xl mx-auto flex space-x-2">
+            <div class="max-w-6xl mx-auto flex space-x-2">
                 <input
                     type="text"
                     id="input"
-                    placeholder="Demandez du code... (ex: code moi une app de trading)"
+                    placeholder="Demandez une application HTML... (ex: app de trading, calculatrice, jeu)"
                     class="flex-1 bg-black bg-opacity-60 text-white placeholder-purple-400 border border-purple-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <button
@@ -97,26 +101,26 @@
             sendMessage();
         }
 
-        function generateCode(query) {
+        function generateHTML(query) {
             var q = query.toLowerCase();
 
             if (q.indexOf('trading') !== -1 || q.indexOf('trade') !== -1 || q.indexOf('bourse') !== -1) {
-                return '📈 APPLICATION DE TRADING COMPLETE\n\n```python\nimport ccxt\nimport pandas as pd\nimport numpy as np\nfrom datetime import datetime\nimport time\n\nclass TradingBot:\n    def __init__(self, exchange="binance", testnet=True):\n        """Initialise le bot de trading"""\n        self.exchange = getattr(ccxt, exchange)({\n            "enableRateLimit": True,\n            "options": {"defaultType": "future"}\n        })\n        if testnet:\n            self.exchange.set_sandbox_mode(True)\n        \n        self.positions = {}\n        self.balance = 10000\n        \n    def get_market_data(self, symbol="BTC/USDT", timeframe="1h", limit=100):\n        """Récupère les données de marché"""\n        try:\n            ohlcv = self.exchange.fetch_ohlcv(symbol, timeframe, limit=limit)\n            df = pd.DataFrame(ohlcv, columns=["timestamp", "open", "high", "low", "close", "volume"])\n            df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")\n            return df\n        except Exception as e:\n            print(f"Erreur: {e}")\n            return None\n    \n    def calculate_rsi(self, df, period=14):\n        """Calcule le RSI"""\n        delta = df["close"].diff()\n        gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()\n        loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()\n        rs = gain / loss\n        rsi = 100 - (100 / (1 + rs))\n        return rsi\n    \n    def calculate_macd(self, df):\n        """Calcule le MACD"""\n        ema12 = df["close"].ewm(span=12, adjust=False).mean()\n        ema26 = df["close"].ewm(span=26, adjust=False).mean()\n        macd = ema12 - ema26\n        signal = macd.ewm(span=9, adjust=False).mean()\n        return macd, signal\n    \n    def analyze_market(self, symbol="BTC/USDT"):\n        """Analyse complète du marché"""\n        df = self.get_market_data(symbol)\n        if df is None:\n            return None\n        \n        df["rsi"] = self.calculate_rsi(df)\n        df["macd"], df["signal"] = self.calculate_macd(df)\n        df["sma_20"] = df["close"].rolling(window=20).mean()\n        df["sma_50"] = df["close"].rolling(window=50).mean()\n        \n        return df\n    \n    def generate_signal(self, df):\n        """Génère un signal de trading"""\n        if df is None or len(df) < 50:\n            return "HOLD", 0\n        \n        last = df.iloc[-1]\n        prev = df.iloc[-2]\n        \n        buy_signals = 0\n        sell_signals = 0\n        \n        # RSI\n        if last["rsi"] < 30:\n            buy_signals += 1\n        elif last["rsi"] > 70:\n            sell_signals += 1\n        \n        # MACD\n        if last["macd"] > last["signal"] and prev["macd"] <= prev["signal"]:\n            buy_signals += 2\n        elif last["macd"] < last["signal"] and prev["macd"] >= prev["signal"]:\n            sell_signals += 2\n        \n        # Moving Average\n        if last["sma_20"] > last["sma_50"]:\n            buy_signals += 1\n        else:\n            sell_signals += 1\n        \n        confidence = abs(buy_signals - sell_signals) / 4 * 100\n        \n        if buy_signals > sell_signals:\n            return "BUY", confidence\n        elif sell_signals > buy_signals:\n            return "SELL", confidence\n        return "HOLD", confidence\n    \n    def run(self, symbol="BTC/USDT"):\n        """Lance le bot"""\n        print(f"🤖 Bot de trading lancé sur {symbol}")\n        df = self.analyze_market(symbol)\n        signal, confidence = self.generate_signal(df)\n        \n        print(f"Signal: {signal} | Confiance: {confidence:.1f}%")\n        print(f"Prix: ${df.iloc[-1]["close"]:.2f}")\n        print(f"RSI: {df.iloc[-1]["rsi"]:.1f}")\n        \n        return signal, df\n\n# UTILISATION\nbot = TradingBot(exchange="binance", testnet=True)\nsignal, data = bot.run("BTC/USDT")\nprint(f"✅ Signal: {signal}")\n```\n\n🎯 FONCTIONNALITÉS:\n✅ Multi-indicateurs (RSI, MACD, SMA)\n✅ Système de scoring intelligent\n✅ Mode testnet pour tester sans risque\n✅ Support de tous les exchanges via CCXT\n\n⚙️ INSTALLATION:\n```bash\npip install ccxt pandas numpy\n```\n\n⚠️ IMPORTANT:\n- Testez TOUJOURS en testnet d\'abord\n- Ajoutez des stop-loss\n- Ne tradez que ce que vous pouvez perdre';
+                return '<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Trading App</title>\n    <script src="https://cdn.tailwindcss.com"></script>\n</head>\n<body class="bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen p-6">\n    <div class="max-w-6xl mx-auto">\n        <h1 class="text-4xl font-bold text-white mb-8">📈 Trading Dashboard</h1>\n        \n        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">\n            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">\n                <div class="text-gray-400 mb-2">BTC/USDT</div>\n                <div class="text-3xl font-bold text-white" id="price">$45,000.00</div>\n                <div class="text-green-400 mt-2" id="change">+2.5%</div>\n            </div>\n            \n            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">\n                <div class="text-gray-400 mb-2">Balance</div>\n                <div class="text-3xl font-bold text-white" id="balance">$10,000.00</div>\n                <div class="text-sm text-gray-400 mt-2">Portfolio Value</div>\n            </div>\n            \n            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">\n                <div class="text-gray-400 mb-2">Profit/Loss</div>\n                <div class="text-3xl font-bold text-green-400" id="pnl">+$250.00</div>\n                <div class="text-sm text-gray-400 mt-2">+2.5%</div>\n            </div>\n        </div>\n        \n        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">\n            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">\n                <h2 class="text-xl font-bold text-white mb-4">Actions Rapides</h2>\n                <div class="space-y-3">\n                    <button onclick="trade(\'buy\')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">\n                        ACHETER BTC\n                    </button>\n                    <button onclick="trade(\'sell\')" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition">\n                        VENDRE BTC\n                    </button>\n                </div>\n            </div>\n            \n            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">\n                <h2 class="text-xl font-bold text-white mb-4">Trades Récents</h2>\n                <div id="tradesList" class="space-y-2 max-h-48 overflow-y-auto">\n                    <div class="text-gray-400 text-center py-4">Aucun trade</div>\n                </div>\n            </div>\n        </div>\n    </div>\n    \n    <script>\n        var price = 45000;\n        var balance = 10000;\n        var trades = [];\n        \n        function updatePrice() {\n            price = price + (Math.random() - 0.5) * 500;\n            var change = ((price - 45000) / 45000 * 100).toFixed(2);\n            \n            document.getElementById("price").textContent = "$" + price.toFixed(2);\n            document.getElementById("change").textContent = (change >= 0 ? "+" : "") + change + "%";\n            document.getElementById("change").className = change >= 0 ? "text-green-400 mt-2" : "text-red-400 mt-2";\n        }\n        \n        function trade(type) {\n            var amount = 0.1;\n            var total = price * amount;\n            \n            if (type === "buy") {\n                if (balance >= total) {\n                    balance -= total;\n                    trades.unshift({type: "ACHAT", price: price, time: new Date().toLocaleTimeString()});\n                    alert("✅ Achat de " + amount + " BTC à $" + price.toFixed(2));\n                } else {\n                    alert("❌ Balance insuffisante!");\n                    return;\n                }\n            } else {\n                balance += total;\n                trades.unshift({type: "VENTE", price: price, time: new Date().toLocaleTimeString()});\n                alert("✅ Vente de " + amount + " BTC à $" + price.toFixed(2));\n            }\n            \n            document.getElementById("balance").textContent = "$" + balance.toFixed(2);\n            var pnl = balance - 10000;\n            document.getElementById("pnl").textContent = (pnl >= 0 ? "+" : "") + "$" + pnl.toFixed(2);\n            document.getElementById("pnl").className = pnl >= 0 ? "text-3xl font-bold text-green-400" : "text-3xl font-bold text-red-400";\n            \n            renderTrades();\n        }\n        \n        function renderTrades() {\n            var html = "";\n            trades.slice(0, 10).forEach(function(t) {\n                var color = t.type === "ACHAT" ? "text-green-400" : "text-red-400";\n                html += "<div class=\\"flex justify-between py-2 border-b border-gray-700\\">";\n                html += "<span class=\\"" + color + " font-semibold\\">" + t.type + "</span>";\n                html += "<span class=\\"text-white\\">$" + t.price.toFixed(2) + "</span>";\n                html += "<span class=\\"text-gray-400 text-sm\\">" + t.time + "</span>";\n                html += "</div>";\n            });\n            document.getElementById("tradesList").innerHTML = html || "<div class=\\"text-gray-400 text-center py-4\\">Aucun trade</div>";\n        }\n        \n        setInterval(updatePrice, 2000);\n    </script>\n</body>\n</html>';
             }
 
-            if (q.indexOf('react') !== -1 || q.indexOf('composant') !== -1) {
-                return '⚛️ COMPOSANT REACT MODERNE\n\n```jsx\nimport React, { useState, useEffect } from "react";\n\nconst TradingDashboard = () => {\n  const [price, setPrice] = useState(45000);\n  const [change, setChange] = useState(0);\n  const [trades, setTrades] = useState([]);\n\n  useEffect(() => {\n    const interval = setInterval(() => {\n      const newPrice = price + (Math.random() - 0.5) * 500;\n      const newChange = ((newPrice - price) / price) * 100;\n      setPrice(newPrice);\n      setChange(newChange);\n    }, 2000);\n\n    return () => clearInterval(interval);\n  }, [price]);\n\n  const executeTrade = (type) => {\n    const trade = {\n      id: Date.now(),\n      type,\n      price,\n      time: new Date().toLocaleTimeString()\n    };\n    setTrades([trade, ...trades.slice(0, 9)]);\n  };\n\n  return (\n    <div className="min-h-screen bg-gray-900 p-6">\n      <h1 className="text-4xl font-bold text-white mb-8">\n        Trading Dashboard\n      </h1>\n\n      <div className="grid grid-cols-3 gap-6 mb-8">\n        <div className="bg-gray-800 rounded-xl p-6">\n          <span className="text-gray-400">BTC/USDT</span>\n          <div className="text-3xl font-bold text-white">\n            ${price.toFixed(2)}\n          </div>\n          <div className={change >= 0 ? "text-green-400" : "text-red-400"}>\n            {change >= 0 ? "📈" : "📉"} {change.toFixed(2)}%\n          </div>\n        </div>\n      </div>\n\n      <div className="space-y-3">\n        <button\n          onClick={() => executeTrade("buy")}\n          className="w-full bg-green-600 text-white font-bold py-3 rounded-lg"\n        >\n          BUY BTC\n        </button>\n        <button\n          onClick={() => executeTrade("sell")}\n          className="w-full bg-red-600 text-white font-bold py-3 rounded-lg"\n        >\n          SELL BTC\n        </button>\n      </div>\n\n      <div className="mt-6">\n        <h2 className="text-xl text-white mb-4">Recent Trades</h2>\n        {trades.map(trade => (\n          <div key={trade.id} className="flex justify-between py-2">\n            <span className={trade.type === "buy" ? "text-green-400" : "text-red-400"}>\n              {trade.type.toUpperCase()}\n            </span>\n            <span className="text-white">${trade.price.toFixed(2)}</span>\n            <span className="text-gray-400">{trade.time}</span>\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n};\n\nexport default TradingDashboard;\n```\n\n✨ Fonctionnalités:\n- Prix en temps réel simulé\n- Système achat/vente\n- Historique des trades\n- Design moderne avec Tailwind';
+            if (q.indexOf('calculatrice') !== -1 || q.indexOf('calc') !== -1) {
+                return '<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Calculatrice</title>\n    <script src="https://cdn.tailwindcss.com"></script>\n</head>\n<body class="bg-gradient-to-br from-purple-900 to-indigo-900 min-h-screen flex items-center justify-center p-4">\n    <div class="bg-gray-900 rounded-3xl p-6 shadow-2xl w-full max-w-sm border border-purple-500">\n        <div class="bg-gray-800 rounded-xl p-4 mb-4 text-right">\n            <div class="text-gray-500 text-sm h-6" id="previous"></div>\n            <div class="text-white text-4xl font-bold" id="display">0</div>\n        </div>\n        \n        <div class="grid grid-cols-4 gap-3">\n            <button onclick="clearDisplay()" class="col-span-2 bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl transition">C</button>\n            <button onclick="deleteLast()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 rounded-xl transition">⌫</button>\n            <button onclick="appendOperator(\'/\')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-xl transition">÷</button>\n            \n            <button onclick="appendNumber(\'7\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">7</button>\n            <button onclick="appendNumber(\'8\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">8</button>\n            <button onclick="appendNumber(\'9\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">9</button>\n            <button onclick="appendOperator(\'*\')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-xl transition">×</button>\n            \n            <button onclick="appendNumber(\'4\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">4</button>\n            <button onclick="appendNumber(\'5\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">5</button>\n            <button onclick="appendNumber(\'6\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">6</button>\n            <button onclick="appendOperator(\'-\')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-xl transition">-</button>\n            \n            <button onclick="appendNumber(\'1\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">1</button>\n            <button onclick="appendNumber(\'2\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">2</button>\n            <button onclick="appendNumber(\'3\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">3</button>\n            <button onclick="appendOperator(\'+\')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 rounded-xl transition">+</button>\n            \n            <button onclick="appendNumber(\'0\')" class="col-span-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">0</button>\n            <button onclick="appendNumber(\'.\')" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-4 rounded-xl transition">.</button>\n            <button onclick="calculate()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition">=</button>\n        </div>\n    </div>\n    \n    <script>\n        var current = "0";\n        var previous = "";\n        var operator = "";\n        \n        function updateDisplay() {\n            document.getElementById("display").textContent = current;\n            document.getElementById("previous").textContent = previous;\n        }\n        \n        function appendNumber(num) {\n            if (current === "0") {\n                current = num;\n            } else {\n                current += num;\n            }\n            updateDisplay();\n        }\n        \n        function appendOperator(op) {\n            if (operator !== "") {\n                calculate();\n            }\n            operator = op;\n            previous = current + " " + op;\n            current = "0";\n            updateDisplay();\n        }\n        \n        function calculate() {\n            if (operator === "") return;\n            \n            var prev = parseFloat(previous);\n            var curr = parseFloat(current);\n            var result = 0;\n            \n            switch(operator) {\n                case "+": result = prev + curr; break;\n                case "-": result = prev - curr; break;\n                case "*": result = prev * curr; break;\n                case "/": result = prev / curr; break;\n            }\n            \n            current = result.toString();\n            previous = "";\n            operator = "";\n            updateDisplay();\n        }\n        \n        function clearDisplay() {\n            current = "0";\n            previous = "";\n            operator = "";\n            updateDisplay();\n        }\n        \n        function deleteLast() {\n            current = current.slice(0, -1) || "0";\n            updateDisplay();\n        }\n    </script>\n</body>\n</html>';
             }
 
-            if (q.indexOf('python') !== -1 || q.indexOf('api') !== -1 || q.indexOf('rest') !== -1) {
-                return '🐍 API REST EN PYTHON (FLASK)\n\n```python\nfrom flask import Flask, jsonify, request\nfrom flask_cors import CORS\nfrom datetime import datetime\n\napp = Flask(__name__)\nCORS(app)\n\n# Base de données simulée\ntrades = []\nbalance = 10000\n\n@app.route("/api/trades", methods=["GET", "POST"])\ndef handle_trades():\n    global trades\n    \n    if request.method == "GET":\n        return jsonify(trades)\n    \n    data = request.json\n    trade = {\n        "id": len(trades) + 1,\n        "symbol": data.get("symbol"),\n        "type": data.get("type"),\n        "price": data.get("price"),\n        "amount": data.get("amount"),\n        "timestamp": datetime.now().isoformat()\n    }\n    trades.append(trade)\n    return jsonify(trade), 201\n\n@app.route("/api/balance", methods=["GET"])\ndef get_balance():\n    return jsonify({"balance": balance})\n\n@app.route("/api/price/<symbol>", methods=["GET"])\ndef get_price(symbol):\n    # Simulation de prix\n    import random\n    price = random.uniform(40000, 50000)\n    return jsonify({\n        "symbol": symbol,\n        "price": price,\n        "timestamp": datetime.now().isoformat()\n    })\n\nif __name__ == "__main__":\n    app.run(debug=True, port=5000)\n```\n\n📦 Installation:\n```bash\npip install flask flask-cors\npython app.py\n```\n\n🔗 Endpoints:\n- GET /api/trades - Liste des trades\n- POST /api/trades - Créer un trade\n- GET /api/balance - Balance actuelle\n- GET /api/price/<symbol> - Prix actuel';
+            if (q.indexOf('todo') !== -1 || q.indexOf('tache') !== -1) {
+                return '<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Todo List</title>\n    <script src="https://cdn.tailwindcss.com"></script>\n</head>\n<body class="bg-gradient-to-br from-blue-900 to-purple-900 min-h-screen p-6">\n    <div class="max-w-2xl mx-auto">\n        <div class="bg-white rounded-2xl shadow-2xl p-6">\n            <h1 class="text-3xl font-bold text-gray-800 mb-6">✅ Ma Todo List</h1>\n            \n            <div class="flex gap-2 mb-6">\n                <input type="text" id="taskInput" placeholder="Nouvelle tâche..." class="flex-1 border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-blue-500 focus:outline-none">\n                <button onclick="addTask()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg transition">Ajouter</button>\n            </div>\n            \n            <div id="taskList" class="space-y-2"></div>\n            \n            <div class="mt-6 flex justify-between text-sm text-gray-600">\n                <span id="stats">0 tâches</span>\n                <button onclick="clearCompleted()" class="text-red-600 hover:text-red-700">Effacer terminées</button>\n            </div>\n        </div>\n    </div>\n    \n    <script>\n        var tasks = [];\n        \n        function addTask() {\n            var input = document.getElementById("taskInput");\n            var text = input.value.trim();\n            if (!text) return;\n            \n            tasks.push({id: Date.now(), text: text, done: false});\n            input.value = "";\n            render();\n        }\n        \n        function toggleTask(id) {\n            var task = tasks.find(function(t) { return t.id === id; });\n            if (task) task.done = !task.done;\n            render();\n        }\n        \n        function deleteTask(id) {\n            tasks = tasks.filter(function(t) { return t.id !== id; });\n            render();\n        }\n        \n        function clearCompleted() {\n            tasks = tasks.filter(function(t) { return !t.done; });\n            render();\n        }\n        \n        function render() {\n            var html = "";\n            tasks.forEach(function(task) {\n                var checked = task.done ? "checked" : "";\n                var lineThrough = task.done ? "line-through text-gray-400" : "";\n                html += "<div class=\\"flex items-center gap-3 bg-gray-50 p-3 rounded-lg\\">";\n                html += "<input type=\\"checkbox\\" " + checked + " onchange=\\"toggleTask(" + task.id + ")\\" class=\\"w-5 h-5\\">";\n                html += "<span class=\\"flex-1 " + lineThrough + "\\">" + task.text + "</span>";\n                html += "<button onclick=\\"deleteTask(" + task.id + ")\\" class=\\"text-red-600 hover:text-red-700 font-bold\\">✕</button>";\n                html += "</div>";\n            });\n            \n            document.getElementById("taskList").innerHTML = html || "<div class=\\"text-center text-gray-400 py-8\\">Aucune tâche</div>";\n            \n            var total = tasks.length;\n            var done = tasks.filter(function(t) { return t.done; }).length;\n            document.getElementById("stats").textContent = done + "/" + total + " tâches terminées";\n        }\n        \n        document.getElementById("taskInput").addEventListener("keypress", function(e) {\n            if (e.key === "Enter") addTask();\n        });\n        \n        render();\n    </script>\n</body>\n</html>';
             }
 
-            if (q.indexOf('discord') !== -1 || q.indexOf('bot') !== -1) {
-                return '🤖 BOT DISCORD\n\n```python\nimport discord\nfrom discord.ext import commands\nimport os\n\nbot = commands.Bot(command_prefix="!", intents=discord.Intents.all())\n\n@bot.event\nasync def on_ready():\n    print(f"✅ Bot connecté en tant que {bot.user}")\n\n@bot.command()\nasync def hello(ctx):\n    await ctx.send(f"👋 Salut {ctx.author.mention}!")\n\n@bot.command()\nasync def price(ctx, crypto: str):\n    # Simulation de prix\n    import random\n    price = random.uniform(40000, 50000)\n    await ctx.send(f"💰 Prix de {crypto.upper()}: ${price:.2f}")\n\n@bot.command()\nasync def trade(ctx, action: str, crypto: str, amount: float):\n    if action.lower() == "buy":\n        await ctx.send(f"✅ Achat de {amount} {crypto.upper()} effectué!")\n    elif action.lower() == "sell":\n        await ctx.send(f"✅ Vente de {amount} {crypto.upper()} effectuée!")\n\nbot.run("VOTRE_TOKEN_ICI")\n```\n\n📦 Installation:\n```bash\npip install discord.py\n```\n\n🎯 Commandes:\n- !hello - Saluer le bot\n- !price BTC - Prix du BTC\n- !trade buy BTC 0.1 - Acheter';
+            if (q.indexOf('jeu') !== -1 || q.indexOf('game') !== -1) {
+                return '<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Jeu du Nombre</title>\n    <script src="https://cdn.tailwindcss.com"></script>\n</head>\n<body class="bg-gradient-to-br from-green-900 to-teal-900 min-h-screen flex items-center justify-center p-4">\n    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">\n        <h1 class="text-3xl font-bold text-gray-800 mb-4">🎮 Devinez le Nombre</h1>\n        <p class="text-gray-600 mb-6">Je pense à un nombre entre 1 et 100</p>\n        \n        <div class="mb-6">\n            <div class="text-5xl font-bold text-purple-600 mb-2" id="attempts">0</div>\n            <div class="text-sm text-gray-500">tentatives</div>\n        </div>\n        \n        <input type="number" id="guess" min="1" max="100" placeholder="Votre nombre..." class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-center text-2xl mb-4 focus:border-purple-500 focus:outline-none">\n        \n        <button onclick="checkGuess()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-lg transition mb-4">Deviner</button>\n        \n        <div id="message" class="text-xl font-semibold mb-4"></div>\n        \n        <button onclick="restart()" class="text-gray-600 hover:text-gray-800 text-sm">🔄 Nouvelle partie</button>\n    </div>\n    \n    <script>\n        var target = Math.floor(Math.random() * 100) + 1;\n        var attempts = 0;\n        \n        function checkGuess() {\n            var guess = parseInt(document.getElementById("guess").value);\n            if (!guess || guess < 1 || guess > 100) {\n                showMessage("Entrez un nombre entre 1 et 100", "text-red-600");\n                return;\n            }\n            \n            attempts++;\n            document.getElementById("attempts").textContent = attempts;\n            \n            if (guess === target) {\n                showMessage("🎉 BRAVO ! Vous avez trouvé en " + attempts + " coups !", "text-green-600");\n            } else if (guess < target) {\n                showMessage("📈 Plus grand !", "text-blue-600");\n            } else {\n                showMessage("📉 Plus petit !", "text-orange-600");\n            }\n            \n            document.getElementById("guess").value = "";\n            document.getElementById("guess").focus();\n        }\n        \n        function showMessage(text, color) {\n            var msg = document.getElementById("message");\n            msg.textContent = text;\n            msg.className = "text-xl font-semibold mb-4 " + color;\n        }\n        \n        function restart() {\n            target = Math.floor(Math.random() * 100) + 1;\n            attempts = 0;\n            document.getElementById("attempts").textContent = "0";\n            document.getElementById("guess").value = "";\n            document.getElementById("message").textContent = "";\n        }\n        \n        document.getElementById("guess").addEventListener("keypress", function(e) {\n            if (e.key === "Enter") checkGuess();\n        });\n    </script>\n</body>\n</html>';
             }
 
-            return '🤖 CodeMaster AI\n\nJe génère du code dans tous les langages !\n\n💡 Exemples:\n- "code moi une application de trading"\n- "créer un composant React"\n- "API REST en Python"\n- "bot Discord"\n\n🚀 Langages supportés:\nPython, JavaScript, React, Node.js, Java, C++, Go, Rust, etc.\n\nPosez votre question !';
+            return '<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Application</title>\n    <script src="https://cdn.tailwindcss.com"></script>\n</head>\n<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-6">\n    <div class="text-center">\n        <h1 class="text-4xl font-bold mb-4">🚀 Application HTML</h1>\n        <p class="text-gray-400 mb-8">Code HTML complet et fonctionnel</p>\n        <div class="bg-gray-800 p-6 rounded-xl">\n            <p>Demandez une app spécifique :</p>\n            <ul class="text-left mt-4 space-y-2">\n                <li>📈 App de trading</li>\n                <li>🔢 Calculatrice</li>\n                <li>✅ Todo list</li>\n                <li>🎮 Jeu</li>\n            </ul>\n        </div>\n    </div>\n</body>\n</html>';
         }
 
         function sendMessage() {
@@ -127,70 +131,63 @@
 
             document.getElementById('welcome').style.display = 'none';
 
-            var userMsg = {
-                role: 'user',
-                content: message,
-                time: new Date().toISOString()
-            };
-
-            messages.push(userMsg);
-            input.value = '';
+            var userMsg = '<div class="flex justify-end"><div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-lg max-w-2xl"><div class="font-semibold">' + message + '</div></div></div>';
             
-            renderMessages();
+            document.getElementById('messagesList').innerHTML += userMsg;
+            input.value = '';
+            scrollToBottom();
+            
             showLoading();
 
             setTimeout(function() {
-                var response = generateCode(message);
-                var botMsg = {
-                    role: 'bot',
-                    content: response,
-                    time: new Date().toISOString()
-                };
-                messages.push(botMsg);
-                hideLoading();
-                renderMessages();
-            }, 800);
-        }
-
-        function renderMessages() {
-            var container = document.getElementById('messagesList');
-            var html = '';
-            
-            messages.forEach(function(msg) {
-                var isUser = msg.role === 'user';
-                var bgClass = isUser ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-black bg-opacity-60 text-purple-100 border border-purple-500';
-                var alignClass = isUser ? 'justify-end' : 'justify-start';
+                var code = generateHTML(message);
+                var botMsg = '<div class="flex justify-start"><div class="bg-gray-800 text-white p-4 rounded-lg max-w-4xl border border-purple-500 w-full">' +
+                    '<div class="flex justify-between items-center mb-2">' +
+                    '<span class="text-purple-300 font-semibold">✨ Code HTML généré</span>' +
+                    '<button onclick="copyCode(this)" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm transition">📋 Copier</button>' +
+                    '</div>' +
+                    '<pre class="bg-black p-4 rounded-lg overflow-x-auto text-xs"><code>' + escapeHTML(code) + '</code></pre>' +
+                    '<div class="text-sm text-gray-400 mt-2">💡 Copiez ce code et testez-le dans un artifact Claude !</div>' +
+                    '</div></div>';
                 
-                html += '<div class="flex ' + alignClass + '">';
-                html += '<div class="max-w-3xl p-4 rounded-lg ' + bgClass + '">';
-                html += '<div class="whitespace-pre-wrap break-words font-mono text-sm">' + formatMessage(msg.content) + '</div>';
-                html += '</div></div>';
-            });
-            
-            container.innerHTML = html;
-            scrollToBottom();
+                hideLoading();
+                document.getElementById('messagesList').innerHTML += botMsg;
+                scrollToBottom();
+            }, 1000);
         }
 
-        function formatMessage(content) {
-            return content
-                .replace(/```(\w+)?\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\n/g, '<br>');
+        function copyCode(button) {
+            var code = button.parentElement.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(function() {
+                button.textContent = '✅ Copié !';
+                button.classList.add('bg-green-600');
+                button.classList.remove('bg-purple-600');
+                setTimeout(function() {
+                    button.textContent = '📋 Copier';
+                    button.classList.remove('bg-green-600');
+                    button.classList.add('bg-purple-600');
+                }, 2000);
+            });
+        }
+
+        function escapeHTML(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
 
         function showLoading() {
-            var container = document.getElementById('messagesList');
-            var loading = document.createElement('div');
-            loading.id = 'loading';
-            loading.className = 'flex justify-start';
-            loading.innerHTML = '<div class="bg-black bg-opacity-60 p-4 rounded-lg border border-purple-500">' +
+            var loading = '<div id="loading" class="flex justify-start"><div class="bg-gray-800 p-4 rounded-lg border border-purple-500">' +
                 '<div class="flex items-center space-x-2">' +
                 '<div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>' +
                 '<div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>' +
                 '<div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>' +
-                '<span class="text-purple-300 ml-2">Génération du code...</span>' +
-                '</div></div>';
-            container.appendChild(loading);
+                '<span class="text-purple-300 ml-2">Génération du code HTML...</span>' +
+                '</div></div></div>';
+            document.getElementById('messagesList').innerHTML += loading;
             scrollToBottom();
         }
 
@@ -205,8 +202,7 @@
         }
 
         function clearAll() {
-            if (!confirm('Effacer tout ?')) return;
-            messages = [];
+            if (!confirm('Effacer toute la conversation ?')) return;
             document.getElementById('messagesList').innerHTML = '';
             document.getElementById('welcome').style.display = 'block';
         }
