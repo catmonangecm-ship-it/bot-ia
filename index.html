@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeMaster AI Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        body { overflow: hidden; }
+        pre { background: #1e1e1e; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.5rem 0; }
+        code { color: #e879f9; font-family: 'Courier New', monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div class="flex flex-col h-screen">
+        <!-- Header -->
+        <div class="bg-black bg-opacity-50 p-4 border-b border-purple-500">
+            <div class="flex items-center justify-between max-w-4xl mx-auto">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-purple-600 p-2 rounded-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">CodeMaster AI Pro</h1>
+                        <p class="text-sm text-purple-300">Assistant de codage intelligent</p>
+                    </div>
+                </div>
+                <button onclick="clearAll()" class="p-2 bg-red-600 hover:bg-red-700 rounded-lg transition">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div id="messages" class="flex-1 overflow-y-auto p-4">
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div id="welcome" class="text-center py-12">
+                    <svg class="w-16 h-16 text-purple-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-white mb-2">Prêt à coder !</h2>
+                    <p class="text-purple-300 mb-4">Demandez-moi de générer du code</p>
+                    <div class="grid grid-cols-2 gap-3 max-w-md mx-auto text-sm">
+                        <button onclick="quickPrompt('code moi une application de trading')" class="bg-purple-700 hover:bg-purple-600 text-white p-3 rounded-lg transition">
+                            📈 App Trading
+                        </button>
+                        <button onclick="quickPrompt('créer un composant React')" class="bg-blue-700 hover:bg-blue-600 text-white p-3 rounded-lg transition">
+                            ⚛️ Composant React
+                        </button>
+                        <button onclick="quickPrompt('API REST en Python')" class="bg-green-700 hover:bg-green-600 text-white p-3 rounded-lg transition">
+                            🐍 API Python
+                        </button>
+                        <button onclick="quickPrompt('bot Discord')" class="bg-indigo-700 hover:bg-indigo-600 text-white p-3 rounded-lg transition">
+                            🤖 Bot Discord
+                        </button>
+                    </div>
+                </div>
+                <div id="messagesList"></div>
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="bg-black bg-opacity-50 p-4 border-t border-purple-500">
+            <div class="max-w-4xl mx-auto flex space-x-2">
+                <input
+                    type="text"
+                    id="input"
+                    placeholder="Demandez du code... (ex: code moi une app de trading)"
+                    class="flex-1 bg-black bg-opacity-60 text-white placeholder-purple-400 border border-purple-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <button
+                    onclick="sendMessage()"
+                    class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-lg transition"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var messages = [];
+
+        function quickPrompt(text) {
+            document.getElementById('input').value = text;
+            sendMessage();
+        }
+
+        function generateCode(query) {
+            var q = query.toLowerCase();
+
+            if (q.indexOf('trading') !== -1 || q.indexOf('trade') !== -1 || q.indexOf('bourse') !== -1) {
+                return '📈 APPLICATION DE TRADING COMPLETE\n\n```python\nimport ccxt\nimport pandas as pd\nimport numpy as np\nfrom datetime import datetime\nimport time\n\nclass TradingBot:\n    def __init__(self, exchange="binance", testnet=True):\n        """Initialise le bot de trading"""\n        self.exchange = getattr(ccxt, exchange)({\n            "enableRateLimit": True,\n            "options": {"defaultType": "future"}\n        })\n        if testnet:\n            self.exchange.set_sandbox_mode(True)\n        \n        self.positions = {}\n        self.balance = 10000\n        \n    def get_market_data(self, symbol="BTC/USDT", timeframe="1h", limit=100):\n        """Récupère les données de marché"""\n        try:\n            ohlcv = self.exchange.fetch_ohlcv(symbol, timeframe, limit=limit)\n            df = pd.DataFrame(ohlcv, columns=["timestamp", "open", "high", "low", "close", "volume"])\n            df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")\n            return df\n        except Exception as e:\n            print(f"Erreur: {e}")\n            return None\n    \n    def calculate_rsi(self, df, period=14):\n        """Calcule le RSI"""\n        delta = df["close"].diff()\n        gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()\n        loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()\n        rs = gain / loss\n        rsi = 100 - (100 / (1 + rs))\n        return rsi\n    \n    def calculate_macd(self, df):\n        """Calcule le MACD"""\n        ema12 = df["close"].ewm(span=12, adjust=False).mean()\n        ema26 = df["close"].ewm(span=26, adjust=False).mean()\n        macd = ema12 - ema26\n        signal = macd.ewm(span=9, adjust=False).mean()\n        return macd, signal\n    \n    def analyze_market(self, symbol="BTC/USDT"):\n        """Analyse complète du marché"""\n        df = self.get_market_data(symbol)\n        if df is None:\n            return None\n        \n        df["rsi"] = self.calculate_rsi(df)\n        df["macd"], df["signal"] = self.calculate_macd(df)\n        df["sma_20"] = df["close"].rolling(window=20).mean()\n        df["sma_50"] = df["close"].rolling(window=50).mean()\n        \n        return df\n    \n    def generate_signal(self, df):\n        """Génère un signal de trading"""\n        if df is None or len(df) < 50:\n            return "HOLD", 0\n        \n        last = df.iloc[-1]\n        prev = df.iloc[-2]\n        \n        buy_signals = 0\n        sell_signals = 0\n        \n        # RSI\n        if last["rsi"] < 30:\n            buy_signals += 1\n        elif last["rsi"] > 70:\n            sell_signals += 1\n        \n        # MACD\n        if last["macd"] > last["signal"] and prev["macd"] <= prev["signal"]:\n            buy_signals += 2\n        elif last["macd"] < last["signal"] and prev["macd"] >= prev["signal"]:\n            sell_signals += 2\n        \n        # Moving Average\n        if last["sma_20"] > last["sma_50"]:\n            buy_signals += 1\n        else:\n            sell_signals += 1\n        \n        confidence = abs(buy_signals - sell_signals) / 4 * 100\n        \n        if buy_signals > sell_signals:\n            return "BUY", confidence\n        elif sell_signals > buy_signals:\n            return "SELL", confidence\n        return "HOLD", confidence\n    \n    def run(self, symbol="BTC/USDT"):\n        """Lance le bot"""\n        print(f"🤖 Bot de trading lancé sur {symbol}")\n        df = self.analyze_market(symbol)\n        signal, confidence = self.generate_signal(df)\n        \n        print(f"Signal: {signal} | Confiance: {confidence:.1f}%")\n        print(f"Prix: ${df.iloc[-1]["close"]:.2f}")\n        print(f"RSI: {df.iloc[-1]["rsi"]:.1f}")\n        \n        return signal, df\n\n# UTILISATION\nbot = TradingBot(exchange="binance", testnet=True)\nsignal, data = bot.run("BTC/USDT")\nprint(f"✅ Signal: {signal}")\n```\n\n🎯 FONCTIONNALITÉS:\n✅ Multi-indicateurs (RSI, MACD, SMA)\n✅ Système de scoring intelligent\n✅ Mode testnet pour tester sans risque\n✅ Support de tous les exchanges via CCXT\n\n⚙️ INSTALLATION:\n```bash\npip install ccxt pandas numpy\n```\n\n⚠️ IMPORTANT:\n- Testez TOUJOURS en testnet d\'abord\n- Ajoutez des stop-loss\n- Ne tradez que ce que vous pouvez perdre';
+            }
+
+            if (q.indexOf('react') !== -1 || q.indexOf('composant') !== -1) {
+                return '⚛️ COMPOSANT REACT MODERNE\n\n```jsx\nimport React, { useState, useEffect } from "react";\n\nconst TradingDashboard = () => {\n  const [price, setPrice] = useState(45000);\n  const [change, setChange] = useState(0);\n  const [trades, setTrades] = useState([]);\n\n  useEffect(() => {\n    const interval = setInterval(() => {\n      const newPrice = price + (Math.random() - 0.5) * 500;\n      const newChange = ((newPrice - price) / price) * 100;\n      setPrice(newPrice);\n      setChange(newChange);\n    }, 2000);\n\n    return () => clearInterval(interval);\n  }, [price]);\n\n  const executeTrade = (type) => {\n    const trade = {\n      id: Date.now(),\n      type,\n      price,\n      time: new Date().toLocaleTimeString()\n    };\n    setTrades([trade, ...trades.slice(0, 9)]);\n  };\n\n  return (\n    <div className="min-h-screen bg-gray-900 p-6">\n      <h1 className="text-4xl font-bold text-white mb-8">\n        Trading Dashboard\n      </h1>\n\n      <div className="grid grid-cols-3 gap-6 mb-8">\n        <div className="bg-gray-800 rounded-xl p-6">\n          <span className="text-gray-400">BTC/USDT</span>\n          <div className="text-3xl font-bold text-white">\n            ${price.toFixed(2)}\n          </div>\n          <div className={change >= 0 ? "text-green-400" : "text-red-400"}>\n            {change >= 0 ? "📈" : "📉"} {change.toFixed(2)}%\n          </div>\n        </div>\n      </div>\n\n      <div className="space-y-3">\n        <button\n          onClick={() => executeTrade("buy")}\n          className="w-full bg-green-600 text-white font-bold py-3 rounded-lg"\n        >\n          BUY BTC\n        </button>\n        <button\n          onClick={() => executeTrade("sell")}\n          className="w-full bg-red-600 text-white font-bold py-3 rounded-lg"\n        >\n          SELL BTC\n        </button>\n      </div>\n\n      <div className="mt-6">\n        <h2 className="text-xl text-white mb-4">Recent Trades</h2>\n        {trades.map(trade => (\n          <div key={trade.id} className="flex justify-between py-2">\n            <span className={trade.type === "buy" ? "text-green-400" : "text-red-400"}>\n              {trade.type.toUpperCase()}\n            </span>\n            <span className="text-white">${trade.price.toFixed(2)}</span>\n            <span className="text-gray-400">{trade.time}</span>\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n};\n\nexport default TradingDashboard;\n```\n\n✨ Fonctionnalités:\n- Prix en temps réel simulé\n- Système achat/vente\n- Historique des trades\n- Design moderne avec Tailwind';
+            }
+
+            if (q.indexOf('python') !== -1 || q.indexOf('api') !== -1 || q.indexOf('rest') !== -1) {
+                return '🐍 API REST EN PYTHON (FLASK)\n\n```python\nfrom flask import Flask, jsonify, request\nfrom flask_cors import CORS\nfrom datetime import datetime\n\napp = Flask(__name__)\nCORS(app)\n\n# Base de données simulée\ntrades = []\nbalance = 10000\n\n@app.route("/api/trades", methods=["GET", "POST"])\ndef handle_trades():\n    global trades\n    \n    if request.method == "GET":\n        return jsonify(trades)\n    \n    data = request.json\n    trade = {\n        "id": len(trades) + 1,\n        "symbol": data.get("symbol"),\n        "type": data.get("type"),\n        "price": data.get("price"),\n        "amount": data.get("amount"),\n        "timestamp": datetime.now().isoformat()\n    }\n    trades.append(trade)\n    return jsonify(trade), 201\n\n@app.route("/api/balance", methods=["GET"])\ndef get_balance():\n    return jsonify({"balance": balance})\n\n@app.route("/api/price/<symbol>", methods=["GET"])\ndef get_price(symbol):\n    # Simulation de prix\n    import random\n    price = random.uniform(40000, 50000)\n    return jsonify({\n        "symbol": symbol,\n        "price": price,\n        "timestamp": datetime.now().isoformat()\n    })\n\nif __name__ == "__main__":\n    app.run(debug=True, port=5000)\n```\n\n📦 Installation:\n```bash\npip install flask flask-cors\npython app.py\n```\n\n🔗 Endpoints:\n- GET /api/trades - Liste des trades\n- POST /api/trades - Créer un trade\n- GET /api/balance - Balance actuelle\n- GET /api/price/<symbol> - Prix actuel';
+            }
+
+            if (q.indexOf('discord') !== -1 || q.indexOf('bot') !== -1) {
+                return '🤖 BOT DISCORD\n\n```python\nimport discord\nfrom discord.ext import commands\nimport os\n\nbot = commands.Bot(command_prefix="!", intents=discord.Intents.all())\n\n@bot.event\nasync def on_ready():\n    print(f"✅ Bot connecté en tant que {bot.user}")\n\n@bot.command()\nasync def hello(ctx):\n    await ctx.send(f"👋 Salut {ctx.author.mention}!")\n\n@bot.command()\nasync def price(ctx, crypto: str):\n    # Simulation de prix\n    import random\n    price = random.uniform(40000, 50000)\n    await ctx.send(f"💰 Prix de {crypto.upper()}: ${price:.2f}")\n\n@bot.command()\nasync def trade(ctx, action: str, crypto: str, amount: float):\n    if action.lower() == "buy":\n        await ctx.send(f"✅ Achat de {amount} {crypto.upper()} effectué!")\n    elif action.lower() == "sell":\n        await ctx.send(f"✅ Vente de {amount} {crypto.upper()} effectuée!")\n\nbot.run("VOTRE_TOKEN_ICI")\n```\n\n📦 Installation:\n```bash\npip install discord.py\n```\n\n🎯 Commandes:\n- !hello - Saluer le bot\n- !price BTC - Prix du BTC\n- !trade buy BTC 0.1 - Acheter';
+            }
+
+            return '🤖 CodeMaster AI\n\nJe génère du code dans tous les langages !\n\n💡 Exemples:\n- "code moi une application de trading"\n- "créer un composant React"\n- "API REST en Python"\n- "bot Discord"\n\n🚀 Langages supportés:\nPython, JavaScript, React, Node.js, Java, C++, Go, Rust, etc.\n\nPosez votre question !';
+        }
+
+        function sendMessage() {
+            var input = document.getElementById('input');
+            var message = input.value.trim();
+            
+            if (!message) return;
+
+            document.getElementById('welcome').style.display = 'none';
+
+            var userMsg = {
+                role: 'user',
+                content: message,
+                time: new Date().toISOString()
+            };
+
+            messages.push(userMsg);
+            input.value = '';
+            
+            renderMessages();
+            showLoading();
+
+            setTimeout(function() {
+                var response = generateCode(message);
+                var botMsg = {
+                    role: 'bot',
+                    content: response,
+                    time: new Date().toISOString()
+                };
+                messages.push(botMsg);
+                hideLoading();
+                renderMessages();
+            }, 800);
+        }
+
+        function renderMessages() {
+            var container = document.getElementById('messagesList');
+            var html = '';
+            
+            messages.forEach(function(msg) {
+                var isUser = msg.role === 'user';
+                var bgClass = isUser ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-black bg-opacity-60 text-purple-100 border border-purple-500';
+                var alignClass = isUser ? 'justify-end' : 'justify-start';
+                
+                html += '<div class="flex ' + alignClass + '">';
+                html += '<div class="max-w-3xl p-4 rounded-lg ' + bgClass + '">';
+                html += '<div class="whitespace-pre-wrap break-words font-mono text-sm">' + formatMessage(msg.content) + '</div>';
+                html += '</div></div>';
+            });
+            
+            container.innerHTML = html;
+            scrollToBottom();
+        }
+
+        function formatMessage(content) {
+            return content
+                .replace(/```(\w+)?\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function showLoading() {
+            var container = document.getElementById('messagesList');
+            var loading = document.createElement('div');
+            loading.id = 'loading';
+            loading.className = 'flex justify-start';
+            loading.innerHTML = '<div class="bg-black bg-opacity-60 p-4 rounded-lg border border-purple-500">' +
+                '<div class="flex items-center space-x-2">' +
+                '<div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>' +
+                '<div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>' +
+                '<div class="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>' +
+                '<span class="text-purple-300 ml-2">Génération du code...</span>' +
+                '</div></div>';
+            container.appendChild(loading);
+            scrollToBottom();
+        }
+
+        function hideLoading() {
+            var loading = document.getElementById('loading');
+            if (loading) loading.remove();
+        }
+
+        function scrollToBottom() {
+            var container = document.getElementById('messages');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearAll() {
+            if (!confirm('Effacer tout ?')) return;
+            messages = [];
+            document.getElementById('messagesList').innerHTML = '';
+            document.getElementById('welcome').style.display = 'block';
+        }
+
+        document.getElementById('input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
